@@ -1,5 +1,7 @@
 import json
 import logging
+import os
+
 import requests
 import cv2
 import boto3
@@ -44,6 +46,7 @@ class subtitle_processing:
         logging.info(f"Frames uploaded to s3 bucket:: {bucket_name} successfully")
 
     def get_text_from_images_via_google_vision(self, bucket_name, key_name):
+        GOOGLE_VISION_API_KEY=os.environ.get("GOOGLE_VISION_API_KEY")
         s3_client = boto3.client("s3", region_name="ap-northeast-1")
         img_object = s3_client.get_object(Bucket=bucket_name, Key=key_name)
         if img_object is None:
@@ -51,7 +54,7 @@ class subtitle_processing:
             return None
         img_data = img_object["Body"].read()
         logging.info(f"Successfully read Image Data from S3 Bucket")
-        response = requests.post("https://vision.googleapis.com/v1/images:annotate?key=API_KEY", json={
+        response = requests.post(f"https://vision.googleapis.com/v1/images:annotate?key={GOOGLE_VISION_API_KEY}", json={
             "requests": [
                 {
                     "image": {
