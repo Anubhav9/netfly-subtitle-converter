@@ -12,7 +12,7 @@ class subtitle_processing:
         pass
 
     def get_frames_from_video(self, video_path):
-        cap = cv2.videoCapture(video_path)
+        cap = cv2.VideoCapture(video_path)
         frame_count = 0
         fps = cap.get(cv2.CAP_PROP_FPS)
         logging.info(f"Frames per second for the video is:: {fps}")
