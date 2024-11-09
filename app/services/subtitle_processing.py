@@ -33,7 +33,7 @@ class subtitle_processing:
 
     def store_frames_in_s3_bucket(self, frames, bucket_name, key_prefix):
         logging.info(f"Storing frames in s3 bucket:: {bucket_name}")
-        s3_client = boto3.client("s3", region_name="ap-nottheast-1")
+        s3_client = boto3.client("s3", region_name="ap-northeast-1")
         for i in range(0, len(frames)):
             logging.info(f"Uploading frame:: {i} to s3 bucket")
             key_name = key_prefix + "/" + str(i) + ".jpg"
@@ -45,7 +45,7 @@ class subtitle_processing:
 
     def get_text_from_images_via_google_vision(self, bucket_name, key_name):
         s3_client = boto3.client("s3", region_name="ap-northeast-1")
-        img_object = s3_client.getobject(Bucket=bucket_name, Key=key_name)
+        img_object = s3_client.get_object(Bucket=bucket_name, Key=key_name)
         if img_object is None:
             logging.error(f"Image object not found in s3 bucket:: {bucket_name}")
             return None
@@ -112,8 +112,12 @@ class subtitle_processing:
         logging.info(f"Starting Step 4: Sanitising the JSON")
         for i in range(0,len(language_mapping_list)):
             if language_mapping_list[i]["translated_text"]=="":
-                language_mapping_list[i]["translated_text"]=language_mapping_list[i-1]["translated_text"]
-                language_mapping_list[i]["original_text"]=language_mapping_list[i-1]["original_text"]
+                if(i==0):
+                    language_mapping_list[i]["translated_text"]="Hello, This project is powered by github.com/Anubhav9"
+                    language_mapping_list[i]["original_text"]="こんにちは、このプロジェクトはgithub.com/Anubhav9によって提供されています"
+                else:
+                    language_mapping_list[i]["translated_text"]=language_mapping_list[i-1]["translated_text"]
+                    language_mapping_list[i]["original_text"]=language_mapping_list[i-1]["original_text"]
         logging.info(f"Step 4 completed successfully")
         logging.info(f"Starting Step 5: Merging the subtitles")
         merged_subtitles_list=merge_subtitles(language_mapping_list)
