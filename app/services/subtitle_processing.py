@@ -1,3 +1,4 @@
+import base64
 import json
 import logging
 import os
@@ -54,11 +55,12 @@ class subtitle_processing:
             return None
         img_data = img_object["Body"].read()
         logging.info(f"Successfully read Image Data from S3 Bucket")
+        img_base64 = base64.b64encode(img_data).decode('utf-8')
         response = requests.post(f"https://vision.googleapis.com/v1/images:annotate?key={GOOGLE_VISION_API_KEY}", json={
             "requests": [
                 {
                     "image": {
-                        "content": img_data
+                        "content": img_base64
                     },
                     "features": [
                         {
