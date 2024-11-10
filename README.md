@@ -58,5 +58,8 @@ Subtitles are stored in JSON format with each entry containing `start_time`, `en
 <img width="1190" alt="image" src="https://github.com/user-attachments/assets/d3687896-4ba6-47e4-9a09-023e98e9fef3">
 <img width="1193" alt="image" src="https://github.com/user-attachments/assets/3f4ba0db-ab3a-4129-97ef-1bf9f98e0b34">
 
+## Disclaimer
+Please note that this project is build purely for learning and education purposes. Please be mindful of Netflix's Terms and Condition before attempting any modifications on the script. This tool is designed for educational use, and redistribution or public sharing of translated content may violate the Terms and Conditions.
+
 ## Contributions
 Contributions are always welcome. Please feel free to open new issues or raise a Pull Request for new features or bug fixes.
