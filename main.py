@@ -1,16 +1,22 @@
-# This is a sample Python script.
+import logging
+import os
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+import boto3
+from services.subtitle_processing import subtitle_processing
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+logging.basicConfig(level=logging.INFO)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+def create_translated_json(video_path):
+    s3_client = boto3.client("s3", region_name="ap-northeast-1")
+    bucket_name = os.environ.get("SUBTITLES_BUCKET_NAME")
+    try:
+        s3_client.create_bucket(Bucket=bucket_name,
+                                CreateBucketConfiguration={'LocationConstraint': 'ap-northeast-1'})
+        logging.info(f"Bucket created successfully with name::{bucket_name}")
+    except Exception as e:
+        logging.warning(f"Bucket already exists with name::{bucket_name}")
+        logging.error(f"Printing Exception::{e}")
+    subtitle_processing_obj = subtitle_processing()
+    subtitle_processing_obj.process_video(video_path, bucket_name)
+    return "Finished Processing"
