@@ -26,6 +26,7 @@ Only subtitles are overlayed in real time. This tool uses JavaScript to synchron
 2. **JavaScript Overlay**:
    - A JavaScript script overlays the custom subtitles on Netflix by fetching the JSON subtitle file from S3.
    - Uses `setTimeout` to display and hide subtitles at the appropriate times.
+   - The sample JS file is added in the repo with the name : overlay_subtitles.js
 
 ## JSON Subtitle Format
 Subtitles are stored in JSON format with each entry containing `start_time`, `end_time`, and `translated_text`:
