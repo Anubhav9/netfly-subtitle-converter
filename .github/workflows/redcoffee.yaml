@@ -1,0 +1,8 @@
+name: RedCoffee Bot
+on: push
+jobs:
+  SonarCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: RedCoffee for Github Actions
+        uses: Anubhav9/redcoffee-for-github-actions@v1.4
